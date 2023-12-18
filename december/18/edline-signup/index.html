@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogIn|Ed.Line</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="stylesheet" href="design.css">
+
+    <style>
+        
+    </style>
+</head>
+<body>
+    
+    <img src="https://static.uacdn.net/production/_next/static/images/compete/compete-banner-bg-shade.svg?q=75&auto=format%2Ccompress&w=1920" alt="" class="bgimg">
+
+    <div class="authContainer">
+        <div class="leftPrettyAuthSection">
+            <div class="authBackButton">
+                <a href="/"><i class="fa-solid fa-chevron-left fa-2xs" style="scale: .9;"></i> Go Home</a>
+            </div>
+        </div>
+
+        <div class="rightPrettyAuthSection">
+            <div class="authTitle">
+                
+                    Login
+                
+            
+                
+            </div>
+            <div class="authSubtitle">
+                
+                    or <a href="/signup/">create an account</a>
+                
+            
+                
+            </div>
+
+            <div class="authForm">
+                        
+                        <form action="/login/" method="post">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="HziiBP8ldH1ZaG5gMhsN55L41Ozeynolhe05gOAJoLdZ9H5jLdNgyU9vx5gq5TA8">
+                            <input type="text" name="username" id="id_username" value="" placeholder="Mobile number"> 
+                            <div class="errS errMsgMobile"></div>
+                            
+                            <input type="password" name="password" id="id_password" value="" placeholder="Password"> 
+                            <div class="errS errMsgPass"></div>
+                            
+                            <button type="submit" class="login" onclick="return isSignAllowed()">Log In</button> 
+                            <div class="errS errMsgTotal" style="width: 100%;display: flex;justify-content: center !important;padding: 0;"></div>
+                        </form>
+                        
+            
+                        
+            </div>
+
+            
+            <div class="authTroubleBox">
+                Having trouble? Write us on <a href="mailto:help.edline@gmail.com">help.edline@gmail.com</a>
+            </div>
+            
+        </div>
+
+    </div>
+
+
+    
+    <script>
+        const MOBILE_FIELD_VALUE_FROM_BACKEND_FOR_LOGIN = "";
+        document.getElementById("id_username").value = MOBILE_FIELD_VALUE_FROM_BACKEND_FOR_LOGIN;
+        let LOGIN_ALLOWED = true;
+
+        
+        document.getElementById("id_username").addEventListener("keyup",()=>{
+            function validateMobile(mobile){
+                if(mobile.length!=10)
+                    return false;
+
+                const regex = /^(?!0+$)\d+$/;
+                return regex.test(mobile);
+            }
+
+            const ERR_X = document.getElementsByClassName("errMsgMobile")[0];
+            
+            if(validateMobile(document.getElementById("id_username").value)){
+                ERR_X.textContent = "";
+                LOGIN_ALLOWED &= true;
+            } else {
+                ERR_X.style.color = "red";
+                ERR_X.textContent = "Malformed mobile number";
+                LOGIN_ALLOWED = false;
+            }
+        });
+
+        
+
+        function isSignAllowed(){
+            const ERR_MOB = document.getElementsByClassName("errMsgMobile")[0];
+
+            if(LOGIN_ALLOWED){
+                ERR_MOB.textContent = "";
+            } else {
+                ERR_MOB.style.color = "red";
+                ERR_MOB.textContent = "Invalid mobile number";
+            }
+            return LOGIN_ALLOWED;
+        }
+
+    </script>
+    
+    
+    
+
+</body>
+</html>

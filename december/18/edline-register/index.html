@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp|Ed.Line</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="stylesheet" href="design.css">
+
+    <style>
+        
+            .authContainer{
+                height: 570px;
+            }
+        
+    </style>
+</head>
+<body>
+    
+    <img src="https://static.uacdn.net/production/_next/static/images/compete/compete-banner-bg-shade.svg?q=75&auto=format%2Ccompress&w=1920" alt="" class="bgimg">
+
+    <div class="authContainer">
+        <div class="leftPrettyAuthSection">
+            <div class="authBackButton">
+                <a href="/"><i class="fa-solid fa-chevron-left fa-2xs" style="scale: .9;"></i> Go Home</a>
+            </div>
+        </div>
+
+        <div class="rightPrettyAuthSection">
+            <div class="authTitle">
+                
+            
+                
+                    Join Ed.Line
+                
+            </div>
+            <div class="authSubtitle">
+                
+            
+                
+                    Already have an account? <a href="/login/">Log in</a>
+                
+            </div>
+
+            <div class="authForm">
+                        
+            
+                        
+                        <form action="/signup/" method="post">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="myAz4Cu7J1ZMRn3NEAUzSEdqL8qkCeVnWdimJBWvU5bMQo3QDwf2ltBRhp7w9K7a">
+                            
+                            <input type="text" name="fname" id="id_fname" value="" placeholder="Full Name"> 
+                            <div class="errS errMsgFName"></div>
+
+                            <input type="text" name="user" id="id_user" value="" placeholder="Mobile number" maxlength="10"> 
+                            <div class="errS errMsgMobile"></div>
+
+                            <input type="email" name="email" id="id_email" value="" placeholder="Email ID"> 
+                            <div class="errS errMsgEmail"></div>
+
+                            <input type="password" name="pass1" id="id_pass1" value="" placeholder="Password" minlength="8" maxlength="50"> 
+                            <div class="errS errMsgPass"></div>
+
+                            <input type="password" name="pass2" id="pass2" placeholder="Confirm password"> 
+                            <div class="errS errMsgConfirmPass"></div>
+                            
+                            <button type="submit" class="login" onclick="return isSignAllowed()" style="background: var(--green);">Register</button> 
+                            <div class="errS errMsgTotal" style="width: 100%;display: flex;justify-content: center !important;padding: 0;"></div>
+                        </form>
+                        
+            </div>
+
+            
+        </div>
+
+    </div>
+
+
+    
+    
+    
+    <script>
+        const MOBILE_FIELD_VALUE_FROM_BACKEND_FOR_SIGNUP = "";
+        document.getElementById("id_user").value = MOBILE_FIELD_VALUE_FROM_BACKEND_FOR_SIGNUP;
+        let SIGNIN_ALLOWED = true;
+
+        document.getElementById("id_user").addEventListener("keyup",()=>{
+            function validateMobile(mobile){
+                if(mobile.length!=10)
+                    return false;
+
+                const regex = /^(?!0+$)\d+$/;
+                return regex.test(mobile);
+            }
+
+            const ERR_X = document.getElementsByClassName("errMsgMobile")[0];
+
+
+            if(validateMobile(document.getElementById("id_user").value)){
+                ERR_X.textContent = "";
+                SIGNIN_ALLOWED &= true;
+            } else {
+                ERR_X.style.color = "red";
+                ERR_X.textContent = "Malformed mobile number";
+                SIGNIN_ALLOWED = false;
+            }
+        });
+
+
+
+        function isSignAllowed(){
+            const ERR_MOB = document.getElementsByClassName("errMsgTotal")[0];
+            
+            if(document.getElementById("id_user").value==''||document.getElementById("id_fname").value==''||document.getElementById("").value==''||document.getElementById("id_email").value==''||document.getElementById("id_pass1").value==''){
+                ERR_MOB.style.color = "orange";
+                ERR_MOB.textContent = "Empty fields exist";
+                SIGNIN_ALLOWED = false;
+                return false;
+            }
+
+
+            if(SIGNIN_ALLOWED){
+                ERR_MOB.textContent = "";
+            } else {
+                ERR_MOB.style.color = "red";
+                ERR_MOB.textContent = "Not all fields are valid";
+            }
+
+            return SIGNIN_ALLOWED;
+        }
+    
+
+        function checkOneWord(n){
+            let NAME = "";
+            let ERR_BOX = "";
+            let RE = /^[A-Za-z]+(?:\s[A-Za-z]+)?$/;
+
+            if(n==1){
+                NAME = document.getElementById("id_fname");
+                ERR_BOX = document.getElementsByClassName("errMsgFName")[0];
+            }
+            else{
+                NAME = document.getElementById("");
+                ERR_BOX = document.getElementsByClassName("errMsgLName")[0];
+            }
+
+            console.log(NAME.value,"...",RE.test(NAME.value))
+            if(RE.test(NAME.value) & NAME.value.length>1){
+                ERR_BOX.textContent = "";
+                SIGNIN_ALLOWED &= true;
+            } else {
+                ERR_BOX.style.color = "red";
+                ERR_BOX.textContent = "No digits or special characters | First + Last names only";
+                SIGNIN_ALLOWED = false;
+            }
+
+        }
+
+
+        document.getElementById("id_fname").addEventListener("keyup",() => { checkOneWord(1) });
+        // document.getElementById("{SF.lname.id_for_label}}").addEventListener("keyup",() => { checkOneWord(2) });
+    
+    
+        document.getElementById("pass2").addEventListener("keyup",() => { 
+
+            const p1 = document.getElementById("id_pass1").value;
+            const p2 = document.getElementById("pass2").value;
+
+            const ERR_RE_PASS = document.getElementsByClassName("errMsgConfirmPass")[0];
+
+            if(p1 == p2){
+                console.log([p1,p2]);
+                ERR_RE_PASS.style.color = "green";
+                ERR_RE_PASS.textContent = "Passwords match!";
+                SIGNIN_ALLOWED &= true;
+                return;
+            }
+
+            ERR_RE_PASS.style.color = "red";
+            ERR_RE_PASS.textContent = "Passwords don't match";
+            SIGNIN_ALLOWED = false;
+
+        });
+
+
+        document.getElementById("id_pass1").addEventListener("keyup", () => {
+            const PASS = document.getElementById("id_pass1").value;
+            const ERR_PASS = document.getElementsByClassName("errMsgPass")[0];
+
+
+            if(PASS==''){
+                ERR_PASS.style.color = "red";
+                ERR_PASS.textContent = "Password can't be empty";
+                SIGNIN_ALLOWED = false;
+                return;
+            }
+
+            const RE = /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=_]).*$/;
+
+            if(RE.test(PASS)){
+                if(PASS.length>8){
+                    ERR_PASS.textContent = "";
+                    SIGNIN_ALLOWED &= true;
+                    return;
+                } else {
+                    ERR_PASS.style.color = "red";
+                    ERR_PASS.textContent = "Password should be atleast 8 characters long";
+                    SIGNIN_ALLOWED = false;
+                }
+            } else {
+                ERR_PASS.style.color = "red";
+                ERR_PASS.textContent = "Password should have atleast one lower, upper case letter, one digit, and one special character from: @#$%^&+=_";
+                SIGNIN_ALLOWED = false;
+            }
+        });
+
+    </script>
+    
+
+</body>
+</html>
